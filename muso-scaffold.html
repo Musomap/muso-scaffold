@@ -1,0 +1,52 @@
+<link rel="import" href="../core-scaffold/core-scaffold.html">
+<link rel="import" href="../core-header-panel/core-header-panel.html">
+<link rel="import" href="../core-ajax/core-ajax.html">
+<link rel="import" href="../core-menu/core-menu.html">
+<link rel="import" href="../core-item/core-item.html">
+<link rel="import" href="../paper-toast/paper-toast.html">
+<link rel="import" href="../paper-fab/paper-fab.html">
+<link rel="import" href="../core-icon-button/core-icon-button.html">
+<link rel="import" href="../muso-card-list/muso-card-list.html">
+<link rel="import" href="../muso-card/muso-card.html">
+<polymer-element name="muso-scaffold" attributes="card" layout vertical>
+  <template>
+    <style type="text/css">
+      muso-card-list {
+        height: 500px;
+      }     
+    </style>
+
+    <core-ajax
+    id="ajax"
+    url="/cards"
+    auto
+    handleas="json"
+    on-core-response="{{handleResponse}}"></core-ajax>
+
+    <core-scaffold>
+      <core-header-panel navigation="" flex="" mode="seamed">
+        <core-toolbar id="core_toolbar">Navigation</core-toolbar>
+        <core-menu theme="core-light-theme">
+          <core-item icon="settings" label="item1"></core-item>
+          <core-item icon="settings" label="item2"></core-item>
+        </core-menu>
+      </core-header-panel>
+      <div tool>Test Project</div>
+      <muso-card-list data="{{cards}}" flex>
+        <template>
+          <muso-card card={{model}} flex></muso-card>
+        </template>
+      </muso-card-list>
+    </core-scaffold>
+
+  </template>
+  <script>
+    Polymer('muso-scaffold', {
+      created: function() {
+      },
+      handleResponse: function(event, detail, sender){
+        this.cards = detail.response;
+      }      
+    });
+  </script>
+</polymer-element>
