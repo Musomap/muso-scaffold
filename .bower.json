@@ -1,0 +1,13 @@
+{
+  "name": "muso-scaffold",
+  "homepage": "https://github.com/Musomap/muso-scaffold",
+  "_release": "cc13273377",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "cc1327337784767fa53992083c1301f51bb07f25"
+  },
+  "_source": "https://github.com/Musomap/muso-scaffold.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/Musomap/muso-scaffold.git"
+}

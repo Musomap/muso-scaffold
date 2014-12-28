@@ -1,52 +1,81 @@
 <link rel="import" href="../core-scaffold/core-scaffold.html">
-<link rel="import" href="../core-header-panel/core-header-panel.html">
-<link rel="import" href="../core-ajax/core-ajax.html">
-<link rel="import" href="../core-menu/core-menu.html">
-<link rel="import" href="../core-item/core-item.html">
-<link rel="import" href="../paper-toast/paper-toast.html">
-<link rel="import" href="../paper-fab/paper-fab.html">
-<link rel="import" href="../core-icon-button/core-icon-button.html">
+<link rel="import" href="../core-animated-pages/core-animated-pages.html">
+<link rel="import" href="../core-animated-pages/transitions/slide-from-right.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../flatron-director/flatiron-director.html">
 <link rel="import" href="../muso-card-list/muso-card-list.html">
-<link rel="import" href="../muso-card/muso-card.html">
 <polymer-element name="muso-scaffold" attributes="card" layout vertical>
   <template>
-    <style type="text/css">
-      muso-card-list {
-        height: 500px;
-      }     
-    </style>
 
-    <core-ajax
-    id="ajax"
-    url="/cards"
-    auto
-    handleas="json"
-    on-core-response="{{handleResponse}}"></core-ajax>
+  <link rel="stylesheet" href="muso-scaffold.css" shim-shadowdom>
 
-    <core-scaffold>
-      <core-header-panel navigation="" flex="" mode="seamed">
-        <core-toolbar id="core_toolbar">Navigation</core-toolbar>
-        <core-menu theme="core-light-theme">
-          <core-item icon="settings" label="item1"></core-item>
-          <core-item icon="settings" label="item2"></core-item>
-        </core-menu>
-      </core-header-panel>
-      <div tool>Test Project</div>
-      <muso-card-list data="{{cards}}" flex>
-        <template>
-          <muso-card card={{model}} flex></muso-card>
-        </template>
-      </muso-card-list>
-    </core-scaffold>
+  <!-- Route controller. -->
+  <flatiron-director route="{{route}}" autoHash></flatiron-director>
+
+  <core-scaffold>
+
+    <nav>
+      <core-toolbar>
+        <span>Single Page Polymer</span>
+      </core-toolbar>
+      <core-menu valueattr="hash" selected="{{route}}" on-core-select="{{menuItemSelected}}">
+
+        <paper-item hash="home" noink>
+          <core-icon icon="label{{route != home ? '-outline' : ''}}"></core-icon>
+          <a href="/#home">home</a>
+        </paper-item>  
+
+        <paper-item hash="profile" noink>
+          <core-icon icon="label{{route != profile ? '-outline' : ''}}"></core-icon>
+          <a href="/#profile">profile</a>
+        </paper-item>
+
+        <paper-item hash="profile-email" noink>
+          <core-icon icon="label{{route != profile-email ? '-outline' : ''}}"></core-icon>
+          <a href="/#profile-email">profile-email</a>
+        </paper-item>
+
+      </core-menu>
+    </nav>
+
+    <core-toolbar tool flex>
+      <div flex></div>
+      <core-icon-button icon="refresh"></core-icon-button>
+      <core-icon-button icon="add"></core-icon-button>
+    </core-toolbar>
+
+    <div layout horizontal center-center fit>
+      <core-animated-pages 
+        selected="{{route}}" 
+        valueattr="hash"
+        transitions="slide-from-right">
+
+        <section hash="home" layout vertical center-center>
+          <div>home</div>
+
+          <muso-card-list class="list"></muso-card-list>
+
+        </section>        
+        
+        <section hash="profile" layout vertical center-center>
+          <div>profile</div>
+        </section>          
+
+        <section hash="profile-email" layout vertical center-center>
+          <div>profile-email</div>
+        </section>
+
+      </core-animated-pages>
+    </div>
+
+  </core-scaffold>
 
   </template>
   <script>
     Polymer('muso-scaffold', {
       created: function() {
-      },
-      handleResponse: function(event, detail, sender){
-        this.cards = detail.response;
-      }      
+        this.cards = [];
+      }    
     });
   </script>
 </polymer-element>
